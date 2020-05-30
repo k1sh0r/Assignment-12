@@ -107,7 +107,7 @@ function reg() {
             exists = "true";
         }
     }
-    if(exists = "false"){
+    if(exists == "false"){
         names[names.length] = name;
         localStorage.setItem('names', JSON.stringify(names));
         passwords[passwords.length] = pass;
