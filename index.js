@@ -59,18 +59,23 @@ form.appendChild(regrow);
 
 let displaymess = document.createElement("div");
 displaymess.id = "message";
-displaymess.className = "center";
+displaymess.className = "center m-1";
 
 container.appendChild(form);
 container.appendChild(displaymess);
 document.body.appendChild(container);
 
-var names = new Array();
-var passwords = new Array();
-names[0] = "0";
-passwords[0] = "0";
+//var names = new Array();
+//var passwords = new Array();
+//names[0] = "0";
+//passwords[0] = "0";
+
+let names = localStorage.getItem('names') ? JSON.parse(localStorage.getItem('names')) : [];
+let passwords = localStorage.getItem('passwords') ? JSON.parse(localStorage.getItem('passwords')) : [];
+console.log(typeof passwords);
 
 function login() {
+    
     var name = document.getElementById("namein").value;
     var pass = document.getElementById("passin").value;
     var messages = "Error! Register as a new user";
@@ -94,7 +99,6 @@ function login() {
 
 function reg() {
     var exists = "false";
-
     var name = document.getElementById("namein").value;
     var pass = document.getElementById("passin").value;
     for(i=0;i<=names.length;i++){
@@ -105,8 +109,11 @@ function reg() {
     }
     if(exists = "false"){
         names[names.length] = name;
+        localStorage.setItem('names', JSON.stringify(names));
         passwords[passwords.length] = pass;
+        localStorage.setItem('passwords', JSON.stringify(passwords));
         messages = "User created, now login";
     }
     document.getElementById("message").innerHTML = messages;
+
 }
