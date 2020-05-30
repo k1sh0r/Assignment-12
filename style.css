@@ -1,0 +1,49 @@
+.container {
+	max-width: 1080px;
+	width: 100%;
+		margin-right: auto;
+		margin-left: auto;
+}
+
+.row {
+	width: 100%;
+	display: flex;
+}
+
+.p-1 {
+	padding: 1rem;
+}
+.m-1 {
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+}
+.header {
+	max-width: 100%;
+	background-color: #042727;
+	font-size: 2rem;
+	color: white;
+	padding-bottom: .5rem;
+	padding-top: .5rem;
+}
+.text-center {
+	text-align: center;
+}
+.center {
+	margin-left: auto;
+	margin-right: auto;
+	width: max-content;
+}
+.center-v {
+	margin-top: auto;
+	margin-bottom: auto;
+}
+.col-6 {
+	width: 50%;
+}
+.label {
+	width: 100px;
+	margin-right: 2rem;
+}
+.reg-btn, .btn {
+	cursor: pointer;
+}
