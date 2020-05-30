@@ -82,7 +82,7 @@ function login() {
     for(i=0;i<=names.length;i++){
         if(names[i]==name && passwords[i]==pass){
             container.innerHTML="Logged in";
-            container.className = "center";
+            container.className = "center m-1";
         }
         else {
             if(names[i]!=name && passwords[i]==pass){
