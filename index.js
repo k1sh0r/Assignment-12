@@ -7,84 +7,84 @@ document.body.appendChild(header);
 let container = document.createElement("div");
 container.setAttribute("class","container");
 
-let form = document.createElement("div");
-form.className = "text-center";
-form.style.marginTop = "5rem";
-form.id="form";
-
-let namerow = document.createElement("div");
-namerow.className = "row m-1 center";
-let namelabel = document.createElement("div");
-namelabel.className = "m-1 label";
-namelabel.style.textAlign = "right";
-namelabel.innerHTML = "Name ";
-let namein = document.createElement("input");
-namein.id = "namein";
-namein.type = "text";
-namein.className = "m-1";
-namerow.appendChild(namelabel);
-namerow.appendChild(namein);
-form.appendChild(namerow);
-
-let passrow = document.createElement("div");
-passrow.className = "row m-1 center";
-let passlabel = document.createElement("div");
-passlabel.className = "m-1 label";
-passlabel.style.textAlign = "right";
-passlabel.innerHTML = "Password ";
-let passin = document.createElement("input");
-passin.id = "passin";
-passin.type = "password";
-passin.className = "m-1";
-passrow.appendChild(passlabel);
-passrow.appendChild(passin);
-form.appendChild(passrow);
-
-let loginrow = document.createElement("div");
-loginrow.className = " m-1";
-let loginbtn = document.createElement("button");
-loginbtn.className = "center btn";
-loginbtn.innerHTML = "Login";
-loginrow.setAttribute("onclick","login()");
-loginrow.appendChild(loginbtn);
-form.appendChild(loginrow);
-
-let regrow = document.createElement("div");
-regrow.className = " m-1";
-let regbtn = document.createElement("a");
-regbtn.className = "center btn";
-regbtn.innerHTML = "New user? Register here";
-regrow.setAttribute("onclick","regform()");
-regrow.appendChild(regbtn);
-form.appendChild(regrow);
+window.onload = function(){
+    logform();
+};
 
 let displaymess = document.createElement("div");
 displaymess.id = "message";
 displaymess.className = "center m-1";
 
-
-container.appendChild(form);
-container.appendChild(displaymess);
-document.body.appendChild(container);
-
-//var names = new Array();
-//var passwords = new Array();
-//names[0] = "0";
-//passwords[0] = "0";
-
 let names = localStorage.getItem('names') ? JSON.parse(localStorage.getItem('names')) : [];
 let passwords = localStorage.getItem('passwords') ? JSON.parse(localStorage.getItem('passwords')) : [];
+var messages;
 //console.log(typeof passwords);
+
+function logform() {
+    container.innerHTML="";
+    let form = document.createElement("div");
+    form.className = "text-center";
+    form.style.marginTop = "5rem";
+    form.id="form";
+
+    let namerow = document.createElement("div");
+    namerow.className = "row m-1 center";
+    let namelabel = document.createElement("div");
+    namelabel.className = "m-1 label";
+    namelabel.style.textAlign = "right";
+    namelabel.innerHTML = "Name ";
+    let namein = document.createElement("input");
+    namein.id = "namein";
+    namein.type = "text";
+    namein.className = "m-1";
+    namerow.appendChild(namelabel);
+    namerow.appendChild(namein);
+    form.appendChild(namerow);
+
+    let passrow = document.createElement("div");
+    passrow.className = "row m-1 center";
+    let passlabel = document.createElement("div");
+    passlabel.className = "m-1 label";
+    passlabel.style.textAlign = "right";
+    passlabel.innerHTML = "Password ";
+    let passin = document.createElement("input");
+    passin.id = "passin";
+    passin.type = "password";
+    passin.className = "m-1";
+    passrow.appendChild(passlabel);
+    passrow.appendChild(passin);
+    form.appendChild(passrow);
+
+    let loginrow = document.createElement("div");
+    loginrow.className = " m-1";
+    let loginbtn = document.createElement("button");
+    loginbtn.className = "center btn";
+    loginbtn.innerHTML = "Login";
+    loginrow.setAttribute("onclick","login()");
+    loginrow.appendChild(loginbtn);
+    form.appendChild(loginrow);
+
+    let regrow = document.createElement("div");
+    regrow.className = " m-1";
+    let regbtn = document.createElement("a");
+    regbtn.className = "center btn";
+    regbtn.innerHTML = "New user? Register here";
+    regrow.setAttribute("onclick","regform()");
+    regrow.appendChild(regbtn);
+    form.appendChild(regrow);
+    container.appendChild(form);
+    container.appendChild(displaymess);
+}
 
 function login() {
     
     var name = document.getElementById("namein").value;
     var pass = document.getElementById("passin").value;
-    var messages = "Error! Register as a new user";
+    messages = "Error! Register as a new user";
     for(i=0;i<=names.length;i++){
         if(names[i]==name && passwords[i]==pass){
             form.innerHTML="";
-            messages = "Enter Player-1 and Player-2 names";
+            //messages = "Enter Player-1 and Player-2 names";
             getpnames();
         }
         else {
@@ -102,8 +102,11 @@ function login() {
 
 function getpnames() {
     //container.innerHTML="pnames executed";
-    var messages = "Enter Player-1 and Player-2 names";
-    document.getElementById("message").innerHTML = messages;
+    container.innerHTML="";
+    messages = "Enter Player-1 and Player-2 names";
+    displaymess.innerText = messages;
+    container.appendChild(displaymess);
+    displaymess.innerHTML = messages;
     let pform = document.createElement("div");
     pform.className = "text-center";
     pform.id="pform";
@@ -144,8 +147,8 @@ function getpnames() {
     enterrow.setAttribute("onclick","enter()");
     enterrow.appendChild(enterbtn);
 
-    container.appendChild(pform);
     pform.appendChild(enterrow);
+    container.appendChild(pform);
     p1 = document.getElementById("p1in").value;
     p2 = document.getElementById("p2in").value;
 }
@@ -156,7 +159,7 @@ function enter() {
     var current = 2;
     var ibi;
     var vals = [];
-    document.getElementById("pform").innerHTML="";
+    container.removeChild(pform);
     //container.removeChild(displaymess);
     let rand = Math.floor(Math.random()*10);
     console.log(rand);
@@ -282,8 +285,7 @@ function enter() {
 }
 
 function regform() {
-    document.getElementById("form").style.display="none";
-    container.removeChild(displaymess);
+    container.innerHTML="";
     let regform = document.createElement("div");
     regform.className = "text-center";
     regform.style.marginTop = "5rem";
@@ -340,23 +342,22 @@ function reg() {
     var exists = "false";
     var name = document.getElementById("namein").value;
     var pass = document.getElementById("passin").value;
-    console.log(name);
     for(i=0;i<=names.length;i++){
         if(names[i]==name && passwords[i]==pass){
+            logrow.innerHTML= "User already exists! Click here to login.";
             exists = "true";
-            document.getElementById("logrow").innerHTML= "User already exists! Click here to login.";
+            break;
         }
-    }
-    if(exists == "false"){
-        names[names.length] = name;
-        localStorage.setItem('names', JSON.stringify(names));
-        passwords[passwords.length] = pass;
-        localStorage.setItem('passwords', JSON.stringify(passwords));
-        document.getElementById("logrow").innerHTML = "User created, now click here to login";
+        else if(exists=="false" && name!="" || pass!=""){
+            names[names.length] = name;
+            localStorage.setItem('names', JSON.stringify(names));
+            passwords[passwords.length] = pass;
+            localStorage.setItem('passwords', JSON.stringify(passwords));
+            logrow.innerHTML = "User created, now click here to login";
+            break;
+        }
+        break;
     }
 }
-function logform() {
-    document.getElementById("regform").style.display="none";
-    document.getElementById("form").style.display="";
-    document.getElementById("logrow").style.display="none";
-}
+
+document.body.appendChild(container);
