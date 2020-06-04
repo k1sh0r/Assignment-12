@@ -153,7 +153,7 @@ function enter() {
     var p2 = document.getElementById("p2in").value;
     var current = 1;
     var ibi;
-    
+    var vals = [];
     document.getElementById("pform").innerHTML="";
     container.removeChild(displaymess);
     let box = document.createElement("div");
@@ -161,16 +161,17 @@ function enter() {
     for(let i=1;i<=3;i++){
         for(let j=1;j<=3;j++) {
             let innerbox = document.createElement("div");
-            innerbox.className="inner-box"
+            innerbox.className="inner-box";
             innerbox.id="ib"+i+j;
             //innerbox.setAttribute("onclick","markxo()")
             box.appendChild(innerbox);
         }
     }
+    var vals = [];
     container.appendChild(box);
     for(let i=1;i<=3;i++){
         for(let j=1;j<=3;j++){
-            ibi = document.getElementById("ib"+i+j)
+            ibi = document.getElementById("ib"+i+j);
             ibi.onclick = function () {                
                 if(current==1){
                     this.innerHTML="X";
@@ -182,20 +183,33 @@ function enter() {
                     this.onclick = "";
                     current=1;
                 }
+                
+                var k=j-1+(i-1)*3;
+                vals[k] = document.getElementById(this.id).innerHTML;
                 checkwon();
             }
         };
     }
-    var rows = "";
-    var cols = "";
+
     function checkwon(){
-        for(let i=1;i<=3;i++){
-            for(let j=1;j<=3;j++){
-                
-                
+        var comb = []
+        for(let i=0;i<=2;i++){
+            var combs = []
+            var k = i*3
+            comb[i] = vals[k]+vals[k+1]+vals[k+2];
+            comb[i+3] = vals[i]+vals[i+3]+vals[i+6];
+        }
+        comb[6] = vals[0]+vals[4]+vals[8];
+        comb[7] = vals[2]+vals[4]+vals[6];
+        for(let i=0;i<=8;i++){
+            if(comb[i] == "XXX"){
+                console.log("won");
+            }
+            if(comb[i] == "OOO"){
+                console.log("won");
             }
         }
-        console.log(vals);
+        console.log(comb);
     }
 }
 
