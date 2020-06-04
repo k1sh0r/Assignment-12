@@ -102,7 +102,8 @@ function login() {
 
 function getpnames() {
     //container.innerHTML="pnames executed";
-    
+    var messages = "Enter Player-1 and Player-2 names";
+    document.getElementById("message").innerHTML = messages;
     let pform = document.createElement("div");
     pform.className = "text-center";
     pform.id="pform";
@@ -145,17 +146,62 @@ function getpnames() {
 
     container.appendChild(pform);
     pform.appendChild(enterrow);
-    
+    p1 = document.getElementById("p1in").value;
+    p2 = document.getElementById("p2in").value;
 }
 
 function enter() {
     var p1 = document.getElementById("p1in").value;
     var p2 = document.getElementById("p2in").value;
-    var current = 1;
+    var current = 2;
     var ibi;
     var vals = [];
     document.getElementById("pform").innerHTML="";
-    container.removeChild(displaymess);
+    //container.removeChild(displaymess);
+    let rand = Math.floor(Math.random()*10);
+    console.log(rand);
+    if(rand < 5){
+        messages = p1 + " shall choose X or O and start";
+        first = p1;
+        second = p2;
+    } 
+    else{
+        messages = p2 + " shall choose X or O and start";
+        first = p2;
+        second = p1;
+    }
+    displaymess.innerHTML = messages;
+    let displayrow = document.createElement("div");
+    displayrow.style.display="flex";
+    displayrow.classList = "text-center"
+    let xbox = document.createElement("div");
+    xbox.classList = "center p-1";
+    let selectx = document.createElement("button");
+    selectx.classList = "btn center";
+    selectx.innerHTML = "X";
+    selectx.onclick = function () {
+        current = 1;
+        displaymess.innerHTML=first+"'s turn";
+        console.log(current);
+        xchose=first;
+    }
+    xbox.appendChild(selectx);
+    let obox = document.createElement("div");
+    obox.classList = "center p-1";
+    let selecto = document.createElement("button");
+    selecto.classList= "btn center";
+    selecto.innerHTML = "O";
+    selecto.onclick = function () {
+        current = 0;
+        displaymess.innerHTML=first+"'s turn";
+        console.log(current);
+        ochose=first;
+    }
+    obox.appendChild(selecto);
+    displayrow.appendChild(xbox);
+    displayrow.appendChild(obox);
+    displaymess.appendChild(displayrow);
+
     let box = document.createElement("div");
     box.className="box";
     for(let i=1;i<=3;i++){
@@ -172,18 +218,20 @@ function enter() {
     for(let i=1;i<=3;i++){
         for(let j=1;j<=3;j++){
             ibi = document.getElementById("ib"+i+j);
-            ibi.onclick = function () {                
-                if(current==1){
+            ibi.onclick = function () {   
+                if (current==2){
+                    alert("Choose X or O first");
+                }             
+                else if(current==1){
                     this.innerHTML="X";
                     this.onclick = "";
                     current=0;
                 }
-                else {
+                else if(current==0){
                     this.innerHTML="O";
                     this.onclick = "";
                     current=1;
                 }
-                
                 var k=j-1+(i-1)*3;
                 vals[k] = document.getElementById(this.id).innerHTML;
                 checkwon();
@@ -203,13 +251,33 @@ function enter() {
         comb[7] = vals[2]+vals[4]+vals[6];
         for(let i=0;i<=8;i++){
             if(comb[i] == "XXX"){
+                alert(xchose+" has won the game");
                 console.log("won");
+                container.removeChild(box);
+                displaymess.innerHTML = xchose+" has won the game";
+                let displayrow = document.createElement("div");
+                displayrow.classList = "center m-1";
+                let playagain = document.createElement("button");
+                playagain.setAttribute("onclick","getpnames()");
+                playagain.innerHTML="Play again?"                
+                displayrow.appendChild(playagain);
+                displaymess.appendChild(displayrow);
             }
             if(comb[i] == "OOO"){
+                alert(ochose+" has won the game");
                 console.log("won");
+                container.removeChild(box);
+                displaymess.innerHTML = ochose+" has won the game";
+                let displayrow = document.createElement("div");
+                displayrow.classList = "center m-1";
+                let playagain = document.createElement("button");
+                playagain.setAttribute("onclick","getpnames()");
+                playagain.innerHTML="Play again?"                
+                displayrow.appendChild(playagain);
+                displaymess.appendChild(displayrow);
             }
         }
-        console.log(comb);
+        //console.log(comb);
     }
 }
 
@@ -269,24 +337,24 @@ function regform() {
     container.appendChild(logrow);
 }
 function reg() {
-            var exists = "false";
-            var name = document.getElementById("namein").value;
-            var pass = document.getElementById("passin").value;
-            for(i=0;i<=names.length;i++){
-                if(names[i]==name && passwords[i]==pass){
-                    exists = "true";
-                    document.getElementById("logrow").innerHTML= "User already exists! Click here to login.";
-                }
-            }
-            if(exists == "false"){
-                names[names.length] = name;
-                localStorage.setItem('names', JSON.stringify(names));
-                passwords[passwords.length] = pass;
-                localStorage.setItem('passwords', JSON.stringify(passwords));
-                messages = "User created, now click here to login";
-            }
-            document.getElementById("message").innerHTML = messages;
+    var exists = "false";
+    var name = document.getElementById("namein").value;
+    var pass = document.getElementById("passin").value;
+    console.log(name);
+    for(i=0;i<=names.length;i++){
+        if(names[i]==name && passwords[i]==pass){
+            exists = "true";
+            document.getElementById("logrow").innerHTML= "User already exists! Click here to login.";
         }
+    }
+    if(exists == "false"){
+        names[names.length] = name;
+        localStorage.setItem('names', JSON.stringify(names));
+        passwords[passwords.length] = pass;
+        localStorage.setItem('passwords', JSON.stringify(passwords));
+        document.getElementById("logrow").innerHTML = "User created, now click here to login";
+    }
+}
 function logform() {
     document.getElementById("regform").style.display="none";
     document.getElementById("form").style.display="";
