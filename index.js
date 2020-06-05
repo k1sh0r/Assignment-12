@@ -60,7 +60,7 @@ function logform() {
     let loginbtn = document.createElement("button");
     loginbtn.className = "center btn";
     loginbtn.innerHTML = "Login";
-    loginrow.setAttribute("onclick","login()");
+    loginbtn.setAttribute("onclick","login()");
     loginrow.appendChild(loginbtn);
     form.appendChild(loginrow);
 
@@ -68,8 +68,9 @@ function logform() {
     regrow.className = " m-1";
     let regbtn = document.createElement("a");
     regbtn.className = "center btn";
+    regbtn.id = "regbtn";
     regbtn.innerHTML = "New user? Register here";
-    regrow.setAttribute("onclick","regform()");
+    regbtn.setAttribute("onclick","regform()");
     regrow.appendChild(regbtn);
     form.appendChild(regrow);
     container.appendChild(form);
@@ -217,11 +218,23 @@ function enter() {
         }
     }
     var vals = [];
+    var temp = 0;
     container.appendChild(box);
     for(let i=1;i<=3;i++){
         for(let j=1;j<=3;j++){
             ibi = document.getElementById("ib"+i+j);
             ibi.onclick = function () {   
+                if(temp==0){
+                    document.getElementById("message").innerHTML = second+"'s turn";
+                    temp = 1;
+                    console.log(temp);
+                }
+                else if(temp==1){
+                    document.getElementById("message").innerHTML = first+"'s turn"
+                    temp = 0;
+                    console.log(temp);
+                }
+
                 if (current==2){
                     alert("Choose X or O first");
                 }             
@@ -320,8 +333,9 @@ function regform() {
     regrow.className = " m-1";
     let regbtn = document.createElement("button");
     regbtn.className = "center btn";
+    regbtn.id = "regbtn";
     regbtn.innerHTML = "Register";
-    regrow.setAttribute("onclick","reg()");
+    regbtn.setAttribute("onclick","reg()");
     regrow.appendChild(regbtn);
 
     passrow.appendChild(passlabel);
@@ -339,24 +353,28 @@ function regform() {
     container.appendChild(logrow);
 }
 function reg() {
-    var exists = "false";
+    var exists = "";
     var name = document.getElementById("namein").value;
     var pass = document.getElementById("passin").value;
-    for(i=0;i<=names.length;i++){
+    for(i=0;i<names.length || i==0;i++){
         if(names[i]==name && passwords[i]==pass){
             logrow.innerHTML= "User already exists! Click here to login.";
-            exists = "true";
+            exists = 1;
             break;
         }
-        else if(exists=="false" && name!="" || pass!=""){
-            names[names.length] = name;
-            localStorage.setItem('names', JSON.stringify(names));
-            passwords[passwords.length] = pass;
-            localStorage.setItem('passwords', JSON.stringify(passwords));
-            logrow.innerHTML = "User created, now click here to login";
-            break;
+        else{
+            if(exists==0){
+                names[names.length] = name;
+                localStorage.setItem('names', JSON.stringify(names));
+                passwords[passwords.length] = pass;
+                localStorage.setItem('passwords', JSON.stringify(passwords));
+                logrow.innerHTML = "User created, now click here to login";
+                exists = 1;
+                document.getElementById("regbtn").style.display="none";
+                break;
+            }
         }
-        break;
+        console.log(exists);
     }
 }
 
